@@ -10,6 +10,26 @@
     <h1 class="text-white flex items-center justify-center text-7xl">
       Task Manager
     </h1>
+    <div class="popupForm">
+      <form class="form-popup" id="form" action="">
+        <h2>New Task</h2>
+        <div class="label-container name">
+          <label for="name">Name: </label>
+          <input type="text" id="name" name="name">
+        </div>
+        <div class="label-container date">
+          <label for="date">Due Date: </label>
+          <input type="date" id="date" name="date">
+        </div>
+        <div class="label-container description">
+          <label for="description"> Description: </label>
+        <textarea name="description" id="description">. . .</textarea>
+        </div>
+        <input type="submit" value="submit">
+      </form>
+      
+
+    </div>
     <div class="flex justify-center">
       <div>
         <input
@@ -51,7 +71,7 @@
         <button class="filter type2">Filter</button>
         <button class="project-overview type2">My projects</button>
       </div>
-      <div class="right-container flex flex-col h-full gap-[20px]">
+      <div  id="main" class="right-container flex flex-col h-full gap-[20px]">
         <div class="main-container flex justify-center">
           <div class="task-container">
             <div class="select">
@@ -75,8 +95,81 @@
                 <input type="button" class="setting-button">
                   <img src="icons/edit.png" alt="" />
                 </input>
-                <!--  <button>Status</button>
-                <button>Remove</button>-->
+              </div>
+            </div>
+          </div>
+          <div class="task-container">
+            <div class="select">
+              <input type="checkbox" />
+            </div>
+            <div class="task-item flex">
+              <div>
+                <div>
+                  <h3>Test</h3>
+                  <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
+                </div>
+                <div>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Fugiat, repellat?
+                  </p>
+                  <h4 class="status-3">In progress</h4>
+                </div>
+              </div>
+              <div class="task-modification">
+                <input type="button" class="setting-button">
+                  <img src="icons/edit.png" alt="" />
+                </input>
+              </div>
+            </div>
+          </div>
+          <div class="task-container">
+            <div class="select">
+              <input type="checkbox" />
+            </div>
+            <div class="task-item flex">
+              <div>
+                <div>
+                  <h3>Test</h3>
+                  <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
+                </div>
+                <div>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Fugiat, repellat?
+                  </p>
+                  <h4 class="status-3">In progress</h4>
+                </div>
+              </div>
+              <div class="task-modification">
+                <input type="button" class="setting-button">
+                  <img src="icons/edit.png" alt="" />
+                </input>
+              </div>
+            </div>
+          </div>
+          <div class="task-container">
+            <div class="select">
+              <input type="checkbox" />
+            </div>
+            <div class="task-item flex">
+              <div>
+                <div>
+                  <h3>Test</h3>
+                  <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
+                </div>
+                <div>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Fugiat, repellat?
+                  </p>
+                  <h4 class="status-3">In progress</h4>
+                </div>
+              </div>
+              <div class="task-modification">
+                <input type="button" class="setting-button">
+                  <img src="icons/edit.png" alt="" />
+                </input>
               </div>
             </div>
           </div>
