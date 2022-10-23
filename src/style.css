@@ -1,34 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Fuzzy+Bubbles&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Fuzzy+Bubbles&family=Homemade+Apple&display=swap");
 :root {
-  --background-style: linear-gradient(
-      129deg,
-      rgba(113, 113, 113, 0.05) 0%,
-      rgba(113, 113, 113, 0.05) 78%,
-      rgba(112, 112, 112, 0.05) 78%,
-      rgba(112, 112, 112, 0.05) 100%
-    ),
-    linear-gradient(
-      109deg,
-      rgba(200, 200, 200, 0.05) 0%,
-      rgba(200, 200, 200, 0.05) 35%,
-      rgba(56, 56, 56, 0.05) 35%,
-      rgba(56, 56, 56, 0.05) 100%
-    ),
-    linear-gradient(
-      264deg,
-      rgba(174, 174, 174, 0.05) 0%,
-      rgba(174, 174, 174, 0.05) 70%,
-      rgba(45, 45, 45, 0.05) 70%,
-      rgba(45, 45, 45, 0.05) 100%
-    ),
-    linear-gradient(90deg, rgb(240, 200, 255), rgb(217, 206, 217));
+  --background-color: #effffd;
   --font-text: "Fuzzy Bubbles", cursive, Arial, Helvetica, sans-serif;
   --font-heading: "Fredericka the Great", cursive, Arial, Helvetica, sans-serif;
+  --font-heading2: "Homemade Apple", cursive Arial, Helvetica, sans-serif;
   --background-soft: rgba(0, 0, 0, 0.616);
+  --current-selection: rgba(255, 254, 251, 0.589);
 }
 body {
   height: 100vh;
@@ -37,140 +17,81 @@ body {
   flex-direction: column;
   gap: 50px;
   background-size: cover;
-}
-button {
-  appearance: none;
-  background-color: #e8dfca;
-  border: 2px solid #7895b2;
-  border-radius: 15px;
-  box-sizing: border-box;
-  color: #000000;
-  cursor: pointer;
-  display: inline-block;
-  font-family: "Fuzzy Bubbles", cursive, Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: normal;
-  margin: 0;
-  min-height: 50px;
-  min-width: 0;
-  outline: none;
-  padding: 10px 10px;
-  text-align: center;
-  text-decoration: none;
-  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 200px;
-  will-change: transform;
-}
-
-button.type1 {
-  width: 200px;
-}
-button.type2 {
-  width: auto;
-}
-
-button:disabled {
-  pointer-events: none;
-}
-
-button:hover {
-  color: #fff;
-  background-color: #1a1a1a;
-  transform: translateY(-2px);
-}
-
-button:active {
-  box-shadow: none;
-  transform: translateY(0);
+  font-size: 20px;
+  color: rgb(255, 255, 255);
 }
 
 h1 {
   font-family: var(--font-heading);
-  letter-spacing: 5px;
-}
-
-.input-search {
-  font-family: var(--font-text);
-}
-.preview-container {
-  width: 15%;
-}
-.right-container {
-  width: 80%;
-  flex-wrap: wrap;
-}
-
-input[type="checkbox"] {
-  scale: 2;
-}
-
-#search {
-  background-color: transparent;
-  border: none;
-  width: auto;
+  font-size: 5rem;
   color: white;
+  text-align: center;
 }
-
-#search:hover {
-  color: #fff;
-  transform: translateY(-2px);
-}
-
 .main-container {
-  width: 70%;
-  font-family: var(--font-text);
+  display: flex;
+  border: 1px solid pink;
+}
+.task-management {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  gap: 50px;
+  height: 80vh;
+  margin: 5px;
+}
+
+.display-container {
+  width: 80%;
+  border: 1px solid black;
+  height: 80vh;
+}
+.action-container,
+.add-container {
+  display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.task-container {
-  padding: 20px;
-  width: auto;
+button {
   display: flex;
+  padding-left: 20px;
+  gap: 5px;
   align-items: center;
-  gap: 30px;
-  border-radius: 15px;
-  background: var(--background-style);
 }
-.task-item {
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+}
+
+.task-management button:hover {
+  background-color: var(--current-selection);
+  color: black;
+  border-radius: 3px;
+}
+
+.option-active {
+  background-color: var(--current-selection);
+  color: black;
+  border-radius: 3px;
+}
+
+.task-container {
   display: flex;
-  gap: 15px;
-  font-weight: 700;
+  gap: 20px;
+  margin: 10px;
+  justify-content: center;
+  border: 2px solid pink;
+  width: 70%;
+  height: auto;
 }
 
-h3 {
-  font-weight: bold;
-  font-size: 20px;
+.task-modification button {
+  margin-top: 8px;
 }
-.task-modification {
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-}
-img {
-  max-width: 30px;
-  max-height: 30px;
-}
-img:hover {
-  cursor: pointer;
-}
-.status-1 {
-  background: rgba(245, 241, 21, 0.26);
-  border-bottom: 4px solid rgba(245, 241, 21);
-}
-.status-2 {
-  background: rgba(245, 47, 21, 0.26);
-  border-bottom: 4px solid rgba(245, 47, 21);
+.task-modification button:hover {
+  color: var(--background-soft);
 }
 
-.status-3 {
-  background: rgba(21, 245, 51, 0.26);
-  border-bottom: 4px solid rgba(21, 245, 51);
-}
-
+/*FORM POP UP*/
 .popupForm {
   visibility: hidden;
   width: 100vw;
@@ -193,7 +114,7 @@ img:hover {
 #form {
   width: 50vw;
   height: 35vh;
-  background-image: var(--background-style);
+  background-color: var(--background-color);
   border-radius: 15px;
   display: flex;
   flex-direction: column;

@@ -4,173 +4,84 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/1d77212d15.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Task Manager</title>
   </head>
-  <body class="p-[20px]">
-    <h1 class="text-white flex items-center justify-center text-7xl">
-      Task Manager
-    </h1>
+
+  <div class="header">
+    <h1>Task Manager</h1>
+  </div>
+  <body>
+    <!-- POPOUT FORM -->
     <div class="popupForm">
       <form class="form-popup" id="form" action="">
         <h2>New Task</h2>
         <div class="label-container name">
           <label for="name">Name: </label>
-          <input type="text" id="name" name="name">
+          <input type="text" id="name" name="name" />
         </div>
         <div class="label-container date">
           <label for="date">Due Date: </label>
-          <input type="date" id="date" name="date">
+          <input type="date" id="date" name="date" />
         </div>
         <div class="label-container description">
           <label for="description"> Description: </label>
-        <textarea name="description" id="description">. . .</textarea>
+          <textarea
+            name="description"
+            id="description"
+            placeholder=". . ."
+          ></textarea>
         </div>
-        <input type="submit" value="submit">
+        <input type="submit" value="submit" />
       </form>
-      
+    </div>
 
-    </div>
-    <div class="flex justify-center">
-      <div>
-        <input
-          type="text"
-          class="input-search bg-transparent border-b-2 outline-0 placeholder:text-white placeholder:text-2xl text-2xl text-white"
-          placeholder="Search . . . "
-        />
-        <button id="search">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
+    <!-- MAIN SCREEN -->
+    <div class="main-container">
+      <!--Task Option Container-->
+      <div class="task-management">
+        <div class="action-container">
+          <button class="inbox"><i class="fas fa-inbox"></i>Inbox</button>
+          <button class="today">
+            <i class="fa-regular fa-calendar"></i>Today
+          </button>
+          <button class="week">
+            <i class="fa-solid fa-calendar-days"></i>This Week
+          </button>
+        </div>
+        <div class="add-container">
+          <button class="new-task">
+            <i class="fa-solid fa-plus"></i>New Task
+          </button>
+          <button class="new-project">
+            <i class="fa-solid fa-diagram-project"></i> New Project
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="task-management flex justify-center gap-[10px]">
-      <button class="new-task type1">Add</button>
-      <button class="new-project type1">New Project</button>
-      <button class="select type1">Select Tasks</button>
-      <!--Remove/Move Selected after selection-->
-      <button class="reset-tasks type1">Delete all Tasks</button>
-      <button class="reset-projects type1">Delete all Projects</button>
-    </div>
-    <div class="flex h-5/6 justify-between w-full gap-[20px]">
-      <div
-        class="preview-container flex flex-col h-full justify-start gap-[25px] bottom-container"
-      >
-        <button class="today type2">Today</button>
-        <button class="week type2">This Week</button>
-        <button class="calendar type2">Calendar</button>
-        <button class="filter type2">Filter</button>
-        <button class="project-overview type2">My projects</button>
-      </div>
-      <div  id="main" class="right-container flex flex-col h-full gap-[20px]">
-        <div class="main-container flex justify-center">
-          <div class="task-container">
-            <div class="select">
-              <input type="checkbox" />
-            </div>
-            <div class="task-item flex">
-              <div>
-                <div>
-                  <h3>Test</h3>
-                  <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
-                </div>
-                <div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Fugiat, repellat?
-                  </p>
-                  <h4 class="status-3">In progress</h4>
-                </div>
-              </div>
-              <div class="task-modification">
-                <input type="button" class="setting-button">
-                  <img src="icons/edit.png" alt="" />
-                </input>
-              </div>
-            </div>
+      <!--Task Container-->
+      <div class="display-container">
+        <div class="task-container">
+          <div class="select-checkbox">
+            <input type="checkbox" />
           </div>
-          <div class="task-container">
-            <div class="select">
-              <input type="checkbox" />
-            </div>
-            <div class="task-item flex">
+          <div class="task-item">
               <div>
-                <div>
-                  <h3>Test</h3>
-                  <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
-                </div>
-                <div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Fugiat, repellat?
-                  </p>
-                  <h4 class="status-3">In progress</h4>
-                </div>
+                <h3>Test</h3>
+                <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
               </div>
-              <div class="task-modification">
-                <input type="button" class="setting-button">
-                  <img src="icons/edit.png" alt="" />
-                </input>
-              </div>
-            </div>
-          </div>
-          <div class="task-container">
-            <div class="select">
-              <input type="checkbox" />
-            </div>
-            <div class="task-item flex">
               <div>
-                <div>
-                  <h3>Test</h3>
-                  <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
-                </div>
-                <div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Fugiat, repellat?
-                  </p>
-                  <h4 class="status-3">In progress</h4>
-                </div>
-              </div>
-              <div class="task-modification">
-                <input type="button" class="setting-button">
-                  <img src="icons/edit.png" alt="" />
-                </input>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Fugiat, repellat?
+                </p>
+                <h4 class="status-3">In progress</h4>
               </div>
             </div>
-          </div>
-          <div class="task-container">
-            <div class="select">
-              <input type="checkbox" />
-            </div>
-            <div class="task-item flex">
-              <div>
-                <div>
-                  <h3>Test</h3>
-                  <h4>Due Date: Oct 30, 2022, 11:28 p.m.</h4>
-                </div>
-                <div>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Fugiat, repellat?
-                  </p>
-                  <h4 class="status-3">In progress</h4>
-                </div>
-              </div>
-              <div class="task-modification">
-                <input type="button" class="setting-button">
-                  <img src="icons/edit.png" alt="" />
-                </input>
-              </div>
+            <div class="task-modification">
+              <button><i class="fas fa-gear"></i></button>
             </div>
           </div>
         </div>
