@@ -17,15 +17,15 @@
   <body>
     <!-- POPOUT FORM -->
     <div class="popupForm">
-      <form class="form-popup" id="form" action="">
-        <h2>New Task</h2>
+      <div class="form-popup" id="form">
+        <h2 class="header-text">New Task</h2>
         <div class="label-container name">
           <label for="name">Name: </label>
           <input type="text" id="name" name="name" />
         </div>
         <div class="label-container date">
           <label for="date">Due Date: </label>
-          <input type="date" id="date" name="date" />
+          <input type="date" class="input-date" id="date" name="date" />
         </div>
         <div class="label-container description">
           <label for="description"> Description: </label>
@@ -35,8 +35,10 @@
             placeholder=". . ."
           ></textarea>
         </div>
-        <input type="submit" value="submit" />
-      </form>
+        <div class="submit-container">
+          <button id="submit">Submit</button>
+        </div>
+      </div>
     </div>
 
     <!-- MAIN SCREEN -->
@@ -53,17 +55,24 @@
           </button>
         </div>
         <div class="add-container">
-          <button class="new-task">
-            <i class="fa-solid fa-plus"></i>New Task
-          </button>
+          <h2 class="header2">
+            <i class="fa-solid fa-folder-tree"></i> Projects
+          </h2>
           <button class="new-project">
-            <i class="fa-solid fa-diagram-project"></i> New Project
+            <i class="fa-solid fa-plus"></i> New Project
           </button>
+          <div id="project-container" class="project-container"></div>
         </div>
       </div>
       <!--Task Container-->
       <div class="display-container">
-        <div class="task-container">
+        <div class="add-btn">
+          <button class="new-task">
+            <i class="fa-solid fa-plus"></i>New Task
+          </button>
+        </div>
+        <div class="task-container"></div>
+        <!-- <div class="task-container">
           <div class="select-checkbox">
             <input type="checkbox" />
           </div>
@@ -84,7 +93,7 @@
               <button><i class="fas fa-gear"></i></button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <script src="main.js"></script>
