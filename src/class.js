@@ -1,9 +1,9 @@
 import { idGenerator } from "./utils";
 
 class Task {
-  constructor(title, due_date, description) {
+  constructor(name, due_date, description) {
     this.id = idGenerator();
-    this.title = title;
+    this.name = name;
     this.due_date = due_date;
     this.description = description;
     this.status = "New";

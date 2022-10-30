@@ -13,4 +13,14 @@ function getProjectData() {
   return AllData;
 }
 
-export { createProjectLocalStorage, createTaskLocalStorage, getProjectData };
+function getInboxData() {
+  let inboxData = JSON.parse(localStorage.getItem("inbox"));
+  return inboxData;
+}
+
+export {
+  createProjectLocalStorage,
+  createTaskLocalStorage,
+  getProjectData,
+  getInboxData,
+};

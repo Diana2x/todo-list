@@ -3,4 +3,10 @@ function idGenerator() {
   return uuid.v4();
 }
 
-export { idGenerator };
+function validateInputField(newData, totalData) {
+  return totalData.every(
+    (e) => e.name.toLowerCase() !== newData.name.toLowerCase()
+  );
+}
+
+export { idGenerator, validateInputField };
