@@ -9,4 +9,10 @@ function validateInputField(newData, totalData) {
   );
 }
 
-export { idGenerator, validateInputField };
+function trimString(string) {
+  return string
+    .replace(/(\W|\_)/g, " ")
+    .replace(/\ {2,30}/g, " ")
+    .trim();
+}
+export { idGenerator, validateInputField, trimString };

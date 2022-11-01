@@ -8,7 +8,7 @@ import {
   getInboxData,
 } from "./localStorage";
 import { createProject, createTask } from "./components";
-import { validateInputField } from "./utils";
+import { validateInputField, trimString } from "./utils";
 
 document.body.style.backgroundImage = "url(svg/Background.svg)";
 
@@ -36,7 +36,7 @@ let currentMode; // to select inbox or projects store option
 
 function displayProjects(data) {
   data.forEach((e) => {
-    createProject(e.name);
+    createProject(e.name, e.id_project);
   });
 }
 displayProjects(dataProjects);
@@ -65,22 +65,24 @@ function showModalProject() {
 }
 
 function submitData() {
+  let newName = trimString(inputName.value);
   if (currentMode) {
-    let project = new NewProject(inputName.value);
+    let project = new NewProject(newName);
+    console.log(project.id_project);
     if (!validateInputField(project, dataProjects)) {
-      alert("Use a different name");
+      alert("Project already in use");
       return;
     }
     createProjectLocalStorage(project, dataProjects);
-    createProject(inputName.value);
+    createProject(newName, project.id_project);
   } else {
     let task = new Task(
-      inputName.value,
+      newName,
       inputDate.valueAsNumber,
       textDescription.value
     );
     createTaskLocalStorage(task, inboxData);
-    createTask(inputName.value, inputDate.valueAsNumber, textDescription.value);
+    createTask(newName, inputDate.valueAsNumber, textDescription.value);
   }
   closeForm();
 }

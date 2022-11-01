@@ -1,13 +1,15 @@
 import { format } from "date-fns";
 import toDate from "date-fns/toDate";
 
-function createProject(projectName) {
+function createProject(projectName, id) {
   const projectContainer = document.getElementById("project-container");
   const projectItem = document.createElement("div");
   const projectTitle = document.createElement("button");
   projectTitle.classList.add("project-title");
+  projectTitle.addEventListener("click", () => {
+    console.log(id);
+  });
   projectTitle.textContent = projectName;
-
   projectContainer.appendChild(projectItem);
   projectItem.appendChild(projectTitle);
 }
