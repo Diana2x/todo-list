@@ -8,10 +8,6 @@ class Task {
     this.description = description;
     this.status = "New";
   }
-
-  getID() {
-    return this.id;
-  }
 }
 
 class NewProject {
@@ -19,9 +15,6 @@ class NewProject {
     this.id_project = idGenerator();
     this.name = name;
     this.list = [];
-  }
-  getIdProject() {
-    return this.id_project;
   }
 }
 
