@@ -1,17 +1,20 @@
 import { format } from "date-fns";
 import toDate from "date-fns/toDate";
 
-function createProject(projectName, id) {
+function createProject(projectTitle, id, dataProjects) {
+  const displayContainer = document.getElementById("task-container");
   const projectContainer = document.getElementById("project-container");
   const projectItem = document.createElement("div");
-  const projectTitle = document.createElement("button");
-  projectTitle.classList.add("project-title");
-  projectTitle.addEventListener("click", () => {
-    console.log(id);
+  const projectName = document.createElement("button");
+  // - Add filter
+  projectName.classList.add("project-title");
+  projectName.addEventListener("click", () => {
+    displayContainer.innerHTML = "";
+    console.log(dataProjects);
   });
-  projectTitle.textContent = projectName;
+  projectName.textContent = projectTitle;
   projectContainer.appendChild(projectItem);
-  projectItem.appendChild(projectTitle);
+  projectItem.appendChild(projectName);
 }
 
 function createTask(taskName, taskDate, taskDescription) {

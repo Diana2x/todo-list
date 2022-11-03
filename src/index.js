@@ -8,52 +8,46 @@ import {
   getInboxData,
 } from "./localStorage";
 import { createProject, createTask } from "./components";
-import { validateInputField, trimString } from "./utils";
+import {
+  validateInputField,
+  trimString,
+  displayInbox,
+  displayDataProjects,
+} from "./utils";
 
 document.body.style.backgroundImage = "url(svg/Background.svg)";
 
+let dataProjects = getProjectData();
+if (dataProjects === null) {
+  dataProjects = [];
+}
+let inboxData = getInboxData();
+if (inboxData === null) {
+  inboxData = [];
+}
 const addTaskBtn = document.querySelector(".new-task");
 const popupForm = document.querySelector(".popupForm");
 const addProjectBtn = document.querySelector(".new-project");
 const submitBtn = document.getElementById("submit");
-
 const headerText = document.querySelector(".header-text");
 const inputName = document.getElementById("name");
 const inputDate = document.getElementById("date");
 const dateContainer = document.querySelector(".date");
 const textContainer = document.querySelector(".description");
 const textDescription = document.getElementById("description");
-
+const displayContainer = document.getElementById("task-container");
+displayContainer.innerHTML = "";
+const inboxBtn = document.getElementById("inbox");
+inboxBtn.addEventListener("click", () => {
+  displayInbox(inboxData);
+});
 submitBtn.addEventListener("click", submitData);
 addTaskBtn.addEventListener("click", openForm);
 addProjectBtn.addEventListener("click", showModalProject);
 
-let dataProjects = getProjectData();
-if (dataProjects === null) {
-  dataProjects = [];
-}
 let currentMode; // to select inbox or projects store option
 
-function displayProjects(data) {
-  data.forEach((e) => {
-    createProject(e.name, e.id_project);
-  });
-}
-displayProjects(dataProjects);
-
-// Inbox
-let inboxData = getInboxData();
-if (inboxData === null) {
-  inboxData = [];
-}
-
-function displayTask(data) {
-  data.forEach((e) => {
-    createTask(e.title, e.due_date, e.description);
-  });
-}
-
-displayTask(inboxData);
+displayDataProjects(dataProjects);
 
 function showModalProject() {
   popupForm.style.visibility = "visible";
@@ -74,7 +68,7 @@ function submitData() {
       return;
     }
     createProjectLocalStorage(project, dataProjects);
-    createProject(newName, project.id_project);
+    createProject(newName, project.id_project, dataProjects);
   } else {
     let task = new Task(
       newName,

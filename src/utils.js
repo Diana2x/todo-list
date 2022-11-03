@@ -1,3 +1,5 @@
+import { createProject, createTask } from "./components";
+
 function idGenerator() {
   const uuid = require("uuid");
   return uuid.v4();
@@ -15,4 +17,23 @@ function trimString(string) {
     .replace(/\ {2,30}/g, " ")
     .trim();
 }
-export { idGenerator, validateInputField, trimString };
+
+const displayDataProjects = (data) => {
+  data.forEach((e) => {
+    createProject(e.name, e.id_project, data);
+  });
+};
+
+const displayInbox = (data) => {
+  data.forEach((e) => {
+    createTask(e.name, e.due_date, e.description);
+  });
+};
+
+export {
+  idGenerator,
+  validateInputField,
+  trimString,
+  displayDataProjects,
+  displayInbox,
+};
