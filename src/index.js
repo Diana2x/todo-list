@@ -6,14 +6,18 @@ import {
   createTaskLocalStorage,
   getProjectData,
   getInboxData,
+  currentProjectId,
+  storeTaskbyProject,
+  getCurrentProjectId,
 } from "./localStorage";
 import { createProject, createTask } from "./components";
 import {
   validateInputField,
   trimString,
-  displayInbox,
+  displayTask,
   displayDataProjects,
 } from "./utils";
+import { add } from "date-fns";
 
 document.body.style.backgroundImage = "url(svg/Background.svg)";
 
@@ -38,14 +42,17 @@ const textDescription = document.getElementById("description");
 const displayContainer = document.getElementById("task-container");
 displayContainer.innerHTML = "";
 const inboxBtn = document.getElementById("inbox");
-inboxBtn.addEventListener("click", () => {
-  displayInbox(inboxData);
-});
 submitBtn.addEventListener("click", submitData);
 addTaskBtn.addEventListener("click", openForm);
 addProjectBtn.addEventListener("click", showModalProject);
-
 let currentMode; // to select inbox or projects store option
+let currentDisplaySelection = "inbox";
+inboxBtn.addEventListener("click", () => {
+  displayContainer.innerHTML = "";
+  currentDisplaySelection = "inbox";
+  console.log(currentDisplaySelection);
+  displayTask(inboxData);
+});
 
 displayDataProjects(dataProjects);
 
@@ -54,15 +61,14 @@ function showModalProject() {
   dateContainer.style.display = "none";
   textContainer.style.display = "none";
   headerText.innerHTML = "New Project";
-
   currentMode = true;
 }
 
 function submitData() {
   let newName = trimString(inputName.value);
+  let currentProjectId = getCurrentProjectId();
   if (currentMode) {
     let project = new NewProject(newName);
-    console.log(project.id_project);
     if (!validateInputField(project, dataProjects)) {
       alert("Project already in use");
       return;
@@ -75,7 +81,11 @@ function submitData() {
       inputDate.valueAsNumber,
       textDescription.value
     );
-    createTaskLocalStorage(task, inboxData);
+    if (currentDisplaySelection === "inbox") {
+      createTaskLocalStorage(task, inboxData);
+    } else {
+      storeTaskbyProject(task, currentProjectId, dataProjects);
+    }
     createTask(newName, inputDate.valueAsNumber, textDescription.value);
   }
   closeForm();
@@ -101,3 +111,13 @@ window.addEventListener("click", (e) => {
     closeForm();
   }
 });
+
+const projectButtons = document.querySelectorAll(".project-title");
+projectButtons.forEach((button) =>
+  button.addEventListener("click", () => {
+    currentDisplaySelection = "project";
+    console.log(currentDisplaySelection);
+  })
+);
+
+// validate empty date, function to detect new buttons in projects

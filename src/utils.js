@@ -24,7 +24,7 @@ const displayDataProjects = (data) => {
   });
 };
 
-const displayInbox = (data) => {
+const displayTask = (data) => {
   data.forEach((e) => {
     createTask(e.name, e.due_date, e.description);
   });
@@ -35,5 +35,5 @@ export {
   validateInputField,
   trimString,
   displayDataProjects,
-  displayInbox,
+  displayTask,
 };

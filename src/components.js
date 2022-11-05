@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import toDate from "date-fns/toDate";
+import { currentProjectId } from "./localStorage";
+import { displayDataProjects, displayTask } from "./utils";
 
 function createProject(projectTitle, id, dataProjects) {
   const displayContainer = document.getElementById("task-container");
@@ -10,7 +12,11 @@ function createProject(projectTitle, id, dataProjects) {
   projectName.classList.add("project-title");
   projectName.addEventListener("click", () => {
     displayContainer.innerHTML = "";
-    console.log(dataProjects);
+    currentProjectId(id);
+    let projectList = dataProjects.find(
+      ({ id_project }) => id_project === id
+    ).list;
+    displayTask(projectList);
   });
   projectName.textContent = projectTitle;
   projectContainer.appendChild(projectItem);
