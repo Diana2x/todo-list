@@ -12,7 +12,7 @@ import {
 } from "./localStorage";
 import { createProject, createTask } from "./components";
 import {
-  validateInputField,
+  validateNameInput,
   trimString,
   displayTask,
   displayDataProjects,
@@ -55,6 +55,7 @@ inboxBtn.addEventListener("click", () => {
 });
 
 displayDataProjects(dataProjects);
+projectButtonsDetect();
 
 function showModalProject() {
   popupForm.style.visibility = "visible";
@@ -69,7 +70,7 @@ function submitData() {
   let currentProjectId = getCurrentProjectId();
   if (currentMode) {
     let project = new NewProject(newName);
-    if (!validateInputField(project, dataProjects)) {
+    if (!validateNameInput(project, dataProjects)) {
       alert("Project already in use");
       return;
     }
@@ -88,6 +89,7 @@ function submitData() {
     }
     createTask(newName, inputDate.valueAsNumber, textDescription.value);
   }
+  projectButtonsDetect();
   closeForm();
 }
 
@@ -112,12 +114,14 @@ window.addEventListener("click", (e) => {
   }
 });
 
-const projectButtons = document.querySelectorAll(".project-title");
-projectButtons.forEach((button) =>
-  button.addEventListener("click", () => {
-    currentDisplaySelection = "project";
-    console.log(currentDisplaySelection);
-  })
-);
+function projectButtonsDetect() {
+  const projectButtons = document.querySelectorAll(".project-title");
+  projectButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      currentDisplaySelection = "project";
+      console.log(currentDisplaySelection);
+    })
+  );
+}
 
 // validate empty date, function to detect new buttons in projects

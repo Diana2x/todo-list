@@ -5,7 +5,7 @@ function idGenerator() {
   return uuid.v4();
 }
 
-function validateInputField(newData, totalData) {
+function validateNameInput(newData, totalData) {
   return totalData.every(
     (e) => e.name.toLowerCase() !== newData.name.toLowerCase()
   );
@@ -32,7 +32,7 @@ const displayTask = (data) => {
 
 export {
   idGenerator,
-  validateInputField,
+  validateNameInput,
   trimString,
   displayDataProjects,
   displayTask,
