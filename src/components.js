@@ -4,13 +4,14 @@ import { currentProjectId } from "./localStorage";
 import { displayDataProjects, displayTask } from "./utils";
 
 function createProject(projectTitle, id, dataProjects) {
+  const addTaskBtn = document.querySelector(".new-task");
   const displayContainer = document.getElementById("task-container");
   const projectContainer = document.getElementById("project-container");
   const projectItem = document.createElement("div");
   const projectName = document.createElement("button");
-  // - Add filter
   projectName.classList.add("project-title");
   projectName.addEventListener("click", () => {
+    addTaskBtn.style.display = "block";
     displayContainer.innerHTML = "";
     currentProjectId(id);
     let projectList = dataProjects.find(

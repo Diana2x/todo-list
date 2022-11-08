@@ -17,7 +17,7 @@ import {
   displayTask,
   displayDataProjects,
 } from "./utils";
-import { add } from "date-fns";
+import { add, isThisWeek, isToday } from "date-fns";
 
 document.body.style.backgroundImage = "url(svg/Background.svg)";
 
@@ -29,6 +29,7 @@ let inboxData = getInboxData();
 if (inboxData === null) {
   inboxData = [];
 }
+
 const addTaskBtn = document.querySelector(".new-task");
 const popupForm = document.querySelector(".popupForm");
 const addProjectBtn = document.querySelector(".new-project");
@@ -40,20 +41,40 @@ const dateContainer = document.querySelector(".date");
 const textContainer = document.querySelector(".description");
 const textDescription = document.getElementById("description");
 const displayContainer = document.getElementById("task-container");
-displayContainer.innerHTML = "";
 const inboxBtn = document.getElementById("inbox");
 submitBtn.addEventListener("click", submitData);
 addTaskBtn.addEventListener("click", openForm);
 addProjectBtn.addEventListener("click", showModalProject);
+const todayBtn = document.getElementById("today");
+const weekBtn = document.getElementById("week");
+const displayText = document.createElement("p");
+displayText.classList.add("filter-text");
 let currentMode; // to select inbox or projects store option
 let currentDisplaySelection = "inbox";
 inboxBtn.addEventListener("click", () => {
+  addTaskBtn.style.display = "block";
   displayContainer.innerHTML = "";
   currentDisplaySelection = "inbox";
   console.log(currentDisplaySelection);
   displayTask(inboxData);
 });
-
+todayBtn.addEventListener("click", () => {
+  addTaskBtn.style.display = "none";
+  displayContainer.innerHTML = "";
+  displayText.innerText = "To do for Today: ";
+  displayContainer.appendChild(displayText);
+  let todayFilter = todayTaskfilter(inboxData, dataProjects);
+  displayTask(todayFilter);
+});
+weekBtn.addEventListener("click", () => {
+  addTaskBtn.style.display = "none";
+  displayContainer.innerHTML = "";
+  displayContainer.appendChild(displayText);
+  displayText.innerText = "To do for this Week: ";
+  let weekFilter = weekTaskFilter(inboxData, dataProjects);
+  displayTask(weekFilter);
+});
+displayTask(inboxData);
 displayDataProjects(dataProjects);
 projectButtonsDetect();
 
@@ -82,15 +103,40 @@ function submitData() {
       inputDate.valueAsNumber,
       textDescription.value
     );
+    if (inputDate.value === "") {
+      alert("Please select a date");
+      return false;
+    }
     if (currentDisplaySelection === "inbox") {
       createTaskLocalStorage(task, inboxData);
     } else {
       storeTaskbyProject(task, currentProjectId, dataProjects);
     }
     createTask(newName, inputDate.valueAsNumber, textDescription.value);
+    console.log(inputDate.value);
   }
   projectButtonsDetect();
   closeForm();
+}
+
+function todayTaskfilter(inboxTasks, projectTasks) {
+  let filteredTasks = [];
+  filteredTasks.push(inboxTasks.filter((e) => isToday(e.due_date)));
+  filteredTasks.push(
+    projectTasks.map((e) => e.list.filter((e) => isToday(e.due_date))).flat()
+  );
+  console.log(filteredTasks.flat());
+  return filteredTasks.flat();
+}
+
+function weekTaskFilter(inboxTasks, projectTasks) {
+  let filteredTask2 = [];
+  filteredTask2.push(inboxTasks.filter((e) => isThisWeek(e.due_date)));
+  filteredTask2.push(
+    projectTasks.map((e) => e.list.filter((e) => isThisWeek(e.due_date))).flat()
+  );
+  console.log(filteredTask2.flat());
+  return filteredTask2.flat();
 }
 
 function openForm() {
@@ -124,4 +170,9 @@ function projectButtonsDetect() {
   );
 }
 
-// validate empty date, function to detect new buttons in projects
+/*for (let i = 0; i < projectTasks.length; i++) {
+    console.log(projectTasks[i].list.filter((e) => isToday(e.due_date)));
+    if (projectTasks[i].list.filter((e) => isToday(e.due_date))) {
+      filteredTask.push(projectTasks[i].list);
+    } 
+  } */ //
