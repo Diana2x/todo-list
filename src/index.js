@@ -19,8 +19,6 @@ import {
 } from "./utils";
 import { add, isThisWeek, isToday } from "date-fns";
 
-document.body.style.backgroundImage = "url(svg/Background.svg)";
-
 let dataProjects = getProjectData();
 if (dataProjects === null) {
   dataProjects = [];
@@ -61,7 +59,7 @@ inboxBtn.addEventListener("click", () => {
 todayBtn.addEventListener("click", () => {
   addTaskBtn.style.display = "none";
   displayContainer.innerHTML = "";
-  displayText.innerText = "To do for Today: ";
+  displayText.innerText = "Task for Today: ";
   displayContainer.appendChild(displayText);
   let todayFilter = todayTaskfilter(inboxData, dataProjects);
   displayTask(todayFilter);
@@ -112,7 +110,12 @@ function submitData() {
     } else {
       storeTaskbyProject(task, currentProjectId, dataProjects);
     }
-    createTask(newName, inputDate.valueAsNumber, textDescription.value);
+    createTask(
+      newName,
+      inputDate.valueAsNumber,
+      textDescription.value,
+      task.taskId
+    );
     console.log(inputDate.value);
   }
   projectButtonsDetect();
@@ -158,6 +161,15 @@ window.addEventListener("click", (e) => {
   if (e.target == popupForm) {
     closeForm();
   }
+  const editBtns = document.querySelector(".edit-menu--item");
+  const settigBtn = document.getElementsByClassName("setting-btn");
+  const editMenuContainer = document.getElementsByClassName("edit-btn--div")[0];
+  if (e.target != editBtns) {
+    editMenuContainer.classList.remove("visible");
+  }
+  if (e.target == settigBtn) {
+    editMenuContainer.classList.add("visible");
+  }
 });
 
 function projectButtonsDetect() {
@@ -169,10 +181,3 @@ function projectButtonsDetect() {
     })
   );
 }
-
-/*for (let i = 0; i < projectTasks.length; i++) {
-    console.log(projectTasks[i].list.filter((e) => isToday(e.due_date)));
-    if (projectTasks[i].list.filter((e) => isToday(e.due_date))) {
-      filteredTask.push(projectTasks[i].list);
-    } 
-  } */ //

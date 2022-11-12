@@ -28,7 +28,7 @@ const displayDataProjects = (data) => {
 
 const displayTask = (data) => {
   data.forEach((e) => {
-    createTask(e.name, e.due_date, e.description);
+    createTask(e.name, e.due_date, e.description, e.id);
   });
 };
 

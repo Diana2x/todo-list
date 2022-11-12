@@ -6,12 +6,14 @@
 :root {
   --background-color: #effffd;
   --font-text: "Fuzzy Bubbles", cursive, Arial, Helvetica, sans-serif;
-  --font-heading: "Fuzzy Bubbles", cursive, Arial, Helvetica, sans-serif;
+  --font-heading: "Fredericka the Great", cursive, Arial, Helvetica, sans-serif;
   --font-text2: "Roboto Condensed", sans-serif, Arial, Helvetica, sans-serif;
   --background-soft: rgba(0, 0, 0, 0.616);
   --current-selection: rgba(255, 254, 251, 0.5);
+  --border-color: rgba(255, 254, 251, 0.5); /*Task color*/
 }
-
+* {
+}
 body {
   height: 100vh;
   width: 100vw;
@@ -21,6 +23,7 @@ body {
   background-size: cover;
   font-size: 20px;
   color: white;
+  background-color: black;
   font-family: var(--font-text2);
 }
 
@@ -39,12 +42,12 @@ h1 {
 }
 .main-container {
   display: flex;
-  border: 2px solid black;
   height: 100%;
 }
 .task-management {
   display: flex;
   flex-direction: column;
+  border-right: 3px solid white;
   width: 20%;
   gap: 50px;
   margin: 10px;
@@ -114,8 +117,9 @@ input[type="checkbox"] {
 .item-container {
   display: flex;
   gap: 20px;
-  border: 2px solid black;
-  background-color: var(--background-soft);
+  background: var(--border-color);
+  border-radius: 15px;
+  padding: 5px;
 }
 .top-container {
   display: flex;
@@ -204,4 +208,39 @@ input[type="checkbox"] {
 #submit:hover {
   cursor: pointer;
   border: 1px solid purple;
+}
+
+.filter-text {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 2rem;
+  font-family: var(--font-heading);
+}
+
+.current-status {
+  background-color: green;
+}
+
+.edit-btn--div {
+  position: fixed;
+  width: 150px;
+  background: #2b2a2a;
+  border-radius: 5px;
+  display: none;
+  z-index: 10000;
+}
+.edit-btn--div.visible {
+  display: block;
+}
+
+.edit-menu--item {
+  padding: 8px;
+  font-size: 16px;
+  color: pink;
+  cursor: pointer;
+  border-radius: inherit;
+}
+.edit-menu--item:hover {
+  background-color: var(--current-selection);
+  color: white;
 }

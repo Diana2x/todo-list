@@ -8,6 +8,9 @@ class Task {
     this.description = description;
     this.status = "New";
   }
+  get taskId() {
+    return this.id;
+  }
 }
 
 class NewProject {

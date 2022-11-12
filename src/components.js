@@ -24,7 +24,7 @@ function createProject(projectTitle, id, dataProjects) {
   projectItem.appendChild(projectName);
 }
 
-function createTask(taskName, taskDate, taskDescription) {
+function createTask(taskName, taskDate, taskDescription, id) {
   const taskContainer = document.getElementById("task-container");
   const taskItem = document.createElement("div");
   taskItem.classList.add("item-container");
@@ -47,9 +47,23 @@ function createTask(taskName, taskDate, taskDescription) {
   itemStatus.classList.add("current-status");
   itemStatus.innerHTML = `New`;
   const settingContainer = document.createElement("div");
+  settingContainer.classList.add("setting-container");
   const settingIcon = document.createElement("button");
   settingIcon.classList.add("setting-btn");
   settingIcon.innerHTML = `<i class="fas fa-gear"></i>`;
+  // Calling edit Menu
+  const editMenuContainer = document.createElement("div");
+  editMenuContainer.classList.add("edit-btn--div");
+  const modifyOption = document.createElement("div");
+  modifyOption.classList.add("modify-task--details", "edit-menu--item");
+  modifyOption.innerText = "Edit";
+  const deleteOption = document.createElement("div");
+  deleteOption.classList.add("delete-task", "edit-menu--item");
+  deleteOption.innerText = "Delete";
+  settingIcon.addEventListener("click", () => {
+    console.log(id);
+    editMenuContainer.classList.add("visible");
+  });
 
   taskContainer.appendChild(taskItem);
   taskItem.appendChild(leftContainer);
@@ -63,6 +77,9 @@ function createTask(taskName, taskDate, taskDescription) {
   statusContainer.appendChild(itemStatus);
   taskItem.appendChild(settingContainer);
   settingContainer.appendChild(settingIcon);
+  settingContainer.appendChild(editMenuContainer);
+  editMenuContainer.appendChild(modifyOption);
+  editMenuContainer.appendChild(deleteOption);
 
   itemName.textContent = taskName;
   itemDate.textContent = format(taskDate, "dd/MM/yyyy");
