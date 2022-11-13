@@ -39,6 +39,7 @@ const dateContainer = document.querySelector(".date");
 const textContainer = document.querySelector(".description");
 const textDescription = document.getElementById("description");
 const displayContainer = document.getElementById("task-container");
+const editMenuContainer = document.getElementsByClassName("edit-btn--div");
 const inboxBtn = document.getElementById("inbox");
 submitBtn.addEventListener("click", submitData);
 addTaskBtn.addEventListener("click", openForm);
@@ -158,18 +159,16 @@ function closeForm() {
 }
 
 window.addEventListener("click", (e) => {
+  let currentEditContainer = Array.from(editMenuContainer).find((container) =>
+    container.classList.contains("visible")
+  );
   if (e.target == popupForm) {
     closeForm();
   }
-  const editBtns = document.querySelector(".edit-menu--item");
-  const settigBtn = document.getElementsByClassName("setting-btn");
-  const editMenuContainer = document.getElementsByClassName("edit-btn--div")[0];
-  if (e.target != editBtns) {
-    editMenuContainer.classList.remove("visible");
+  if (e.target.classList.value != "fas fa-gear") {
+    currentEditContainer.classList.remove("visible");
   }
-  if (e.target == settigBtn) {
-    editMenuContainer.classList.add("visible");
-  }
+  // console.log(editMenuContainer);
 });
 
 function projectButtonsDetect() {

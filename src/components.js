@@ -61,7 +61,13 @@ function createTask(taskName, taskDate, taskDescription, id) {
   deleteOption.classList.add("delete-task", "edit-menu--item");
   deleteOption.innerText = "Delete";
   settingIcon.addEventListener("click", () => {
-    console.log(id);
+    if (editMenuContainer.classList.contains("visible")) {
+      editMenuContainer.classList.remove("visible");
+      return;
+    }
+    let editMenuList = document.getElementsByClassName("edit-btn--div");
+    Array.from(editMenuList).forEach((e) => e.classList.remove("visible"));
+    console.log(editMenuList);
     editMenuContainer.classList.add("visible");
   });
 
