@@ -1,6 +1,6 @@
 import { createProject, createTask } from "./components";
-import toDate from "date-fns/toDate";
-import { format } from "date-fns";
+import { createProjectLocalStorage, getCurrentProjectId } from "./localStorage";
+import { NewProject } from "./class";
 
 function idGenerator() {
   const uuid = require("uuid");
@@ -21,14 +21,29 @@ function trimString(string) {
 }
 
 const displayDataProjects = (data) => {
-  data.forEach((e) => {
-    createProject(e.name, e.id_project, data);
+  let newData = data.every((e) => {
+    e.name !== "inbox";
+  });
+
+  if (newData) {
+    let createInboxData = new NewProject("inbox");
+    createInboxData.id_project = "1";
+    createProjectLocalStorage(createInboxData, data);
+    createProject("inbox", createInboxData.id_project, createInboxData);
+  }
+
+  data.map((e) => {
+    if (e.name !== "inbox") {
+      createProject(e.name, e.id_project, data);
+    }
   });
 };
 
 const displayTask = (data) => {
-  data.forEach((e) => {
-    createTask(e.name, e.due_date, e.description, e.id);
+  let dataProject = data.find((e) => e.id_project === getCurrentProjectId());
+  console.log(dataProject);
+  dataProject.list.forEach((e) => {
+    createTask(e.name, e.due_date, e.description, e.id, data);
   });
 };
 

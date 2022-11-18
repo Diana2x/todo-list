@@ -1,14 +1,13 @@
-import toDate from "date-fns/toDate";
 import "./style.css";
 import { Task, NewProject } from "./class";
 import {
   createProjectLocalStorage,
-  createTaskLocalStorage,
   getProjectData,
-  getInboxData,
-  currentProjectId,
   storeTaskbyProject,
   getCurrentProjectId,
+  currentProjectId,
+  getCurrentTask,
+  modifyTask,
 } from "./localStorage";
 import { createProject, createTask } from "./components";
 import {
@@ -17,16 +16,21 @@ import {
   displayTask,
   displayDataProjects,
 } from "./utils";
-import { add, isThisWeek, isToday } from "date-fns";
+import { isThisWeek, isToday, format } from "date-fns";
+
+/*---DEFAULT---*/
 
 let dataProjects = getProjectData();
 if (dataProjects === null) {
   dataProjects = [];
 }
-let inboxData = getInboxData();
-if (inboxData === null) {
-  inboxData = [];
-}
+
+displayDataProjects(dataProjects);
+//render inbox data
+currentProjectId("1");
+displayTask(dataProjects);
+projectButtonsDetect();
+/*--------------*/
 
 const addTaskBtn = document.querySelector(".new-task");
 const popupForm = document.querySelector(".popupForm");
@@ -39,7 +43,6 @@ const dateContainer = document.querySelector(".date");
 const textContainer = document.querySelector(".description");
 const textDescription = document.getElementById("description");
 const displayContainer = document.getElementById("task-container");
-const editMenuContainer = document.getElementsByClassName("edit-btn--div");
 const inboxBtn = document.getElementById("inbox");
 submitBtn.addEventListener("click", submitData);
 addTaskBtn.addEventListener("click", openForm);
@@ -48,34 +51,32 @@ const todayBtn = document.getElementById("today");
 const weekBtn = document.getElementById("week");
 const displayText = document.createElement("p");
 displayText.classList.add("filter-text");
+
 let currentMode; // to select inbox or projects store option
 let currentDisplaySelection = "inbox";
+
 inboxBtn.addEventListener("click", () => {
   addTaskBtn.style.display = "block";
   displayContainer.innerHTML = "";
-  currentDisplaySelection = "inbox";
-  console.log(currentDisplaySelection);
-  displayTask(inboxData);
+  currentProjectId("1");
+  displayTask(dataProjects);
 });
+
 todayBtn.addEventListener("click", () => {
   addTaskBtn.style.display = "none";
   displayContainer.innerHTML = "";
   displayText.innerText = "Task for Today: ";
   displayContainer.appendChild(displayText);
-  let todayFilter = todayTaskfilter(inboxData, dataProjects);
-  displayTask(todayFilter);
+  displayTask(todayTaskfilter(dataProjects));
 });
+
 weekBtn.addEventListener("click", () => {
   addTaskBtn.style.display = "none";
   displayContainer.innerHTML = "";
   displayContainer.appendChild(displayText);
   displayText.innerText = "To do for this Week: ";
-  let weekFilter = weekTaskFilter(inboxData, dataProjects);
-  displayTask(weekFilter);
+  displayTask(weekTaskFilter(dataProjects));
 });
-displayTask(inboxData);
-displayDataProjects(dataProjects);
-projectButtonsDetect();
 
 function showModalProject() {
   popupForm.style.visibility = "visible";
@@ -85,10 +86,10 @@ function showModalProject() {
   currentMode = true;
 }
 
-function submitData() {
+function submitData(e) {
   let newName = trimString(inputName.value);
   let currentProjectId = getCurrentProjectId();
-  if (currentMode) {
+  if (headerText.innerText === "New Project") {
     let project = new NewProject(newName);
     if (!validateNameInput(project, dataProjects)) {
       alert("Project already in use");
@@ -96,7 +97,8 @@ function submitData() {
     }
     createProjectLocalStorage(project, dataProjects);
     createProject(newName, project.id_project, dataProjects);
-  } else {
+  }
+  if (headerText.innerText === "New Task") {
     let task = new Task(
       newName,
       inputDate.valueAsNumber,
@@ -106,41 +108,34 @@ function submitData() {
       alert("Please select a date");
       return false;
     }
-    if (currentDisplaySelection === "inbox") {
-      createTaskLocalStorage(task, inboxData);
-    } else {
-      storeTaskbyProject(task, currentProjectId, dataProjects);
-    }
+    storeTaskbyProject(task, currentProjectId, dataProjects);
     createTask(
       newName,
       inputDate.valueAsNumber,
       textDescription.value,
-      task.taskId
+      task.taskId,
+      dataProjects
     );
-    console.log(inputDate.value);
   }
+  e.preventDefault();
   projectButtonsDetect();
   closeForm();
 }
 
-function todayTaskfilter(inboxTasks, projectTasks) {
-  let filteredTasks = [];
-  filteredTasks.push(inboxTasks.filter((e) => isToday(e.due_date)));
-  filteredTasks.push(
-    projectTasks.map((e) => e.list.filter((e) => isToday(e.due_date))).flat()
+function todayTaskfilter(allData) {
+  console.log(
+    allData.map((e) => e.list.filter((e) => isToday(e.due_date))).flat()
   );
-  console.log(filteredTasks.flat());
-  return filteredTasks.flat();
+  return allData.map((e) => e.list.filter((e) => isToday(e.due_date))).flat();
 }
 
-function weekTaskFilter(inboxTasks, projectTasks) {
-  let filteredTask2 = [];
-  filteredTask2.push(inboxTasks.filter((e) => isThisWeek(e.due_date)));
-  filteredTask2.push(
-    projectTasks.map((e) => e.list.filter((e) => isThisWeek(e.due_date))).flat()
+function weekTaskFilter(allData) {
+  console.log(
+    allData.map((e) => e.list.filter((e) => isThisWeek(e.due_date))).flat()
   );
-  console.log(filteredTask2.flat());
-  return filteredTask2.flat();
+  return allData
+    .map((e) => e.list.filter((e) => isThisWeek(e.due_date)))
+    .flat();
 }
 
 function openForm() {
@@ -148,6 +143,17 @@ function openForm() {
   dateContainer.style.display = "block";
   textContainer.style.display = "flex";
   headerText.innerHTML = "New Task";
+  currentMode = false;
+}
+
+function openModifyForm(currentTask) {
+  popupForm.style.visibility = "visible";
+  dateContainer.style.display = "block";
+  textContainer.style.display = "flex";
+  headerText.innerHTML = "Modify Task";
+  inputName.value = currentTask.name;
+  inputDate.valueAsNumber = currentTask.due_date;
+  textDescription.value = currentTask.description;
   currentMode = false;
 }
 
@@ -159,16 +165,23 @@ function closeForm() {
 }
 
 window.addEventListener("click", (e) => {
-  let currentEditContainer = Array.from(editMenuContainer).find((container) =>
-    container.classList.contains("visible")
-  );
   if (e.target == popupForm) {
     closeForm();
   }
-  if (e.target.classList.value != "fas fa-gear") {
-    currentEditContainer.classList.remove("visible");
+
+  const editMenuContainer = Array.from(
+    document.getElementsByClassName("edit-btn--div")
+  );
+
+  const element = editMenuContainer.filter((e) => {
+    return e.classList[1] === "visible";
+  });
+
+  if (e.target.classList.value !== "fas fa-gear") {
+    if (element.length > 0) {
+      element[0].classList.remove("visible");
+    }
   }
-  // console.log(editMenuContainer);
 });
 
 function projectButtonsDetect() {
@@ -180,3 +193,11 @@ function projectButtonsDetect() {
     })
   );
 }
+
+function autoSetTime() {
+  var dateControl = document.querySelector('input[type="date"]');
+  dateControl.value = format(new Date(), "yyyy-MM-dd");
+}
+autoSetTime();
+
+export { openModifyForm };

@@ -1,3 +1,5 @@
+import { da } from "date-fns/locale";
+import { openModifyForm } from "./index";
 function createProjectLocalStorage(newProject, data) {
   data.push(newProject);
   localStorage.setItem("projects", JSON.stringify(data));
@@ -11,19 +13,9 @@ function getCurrentProjectId() {
   return JSON.parse(localStorage.getItem("currentProject"));
 }
 
-function createTaskLocalStorage(newTask, data) {
-  data.push(newTask);
-  localStorage.setItem("inbox", JSON.stringify(data));
-}
-
 function getProjectData() {
   let AllData = JSON.parse(localStorage.getItem("projects"));
   return AllData;
-}
-
-function getInboxData() {
-  let inboxData = JSON.parse(localStorage.getItem("inbox"));
-  return inboxData;
 }
 
 function storeTaskbyProject(task, id, data) {
@@ -31,12 +23,35 @@ function storeTaskbyProject(task, id, data) {
   localStorage.setItem("projects", JSON.stringify(data));
 }
 
+function getCurrentTask(idTask, data) {
+  let currentProject = data.find((e) => e.id_project === getCurrentProjectId());
+  let task = currentProject.list.find((e) => e.id === idTask);
+  return task;
+}
+
+function modifyTask(name, date, description, data, idTask) {
+  let currentProject = data.find((e) => e.id_project === getCurrentProjectId());
+  let task = currentProject.list.find((e) => e.id === idTask);
+  task.name = name;
+  task.due_date = date;
+  task.description = description;
+  localStorage.setItem("projects", JSON.stringify(data));
+}
+
+function deleteTaskProjects(idTask, data) {
+  let currentProject = data.find((e) => e.id_project === getCurrentProjectId());
+  let currentIndex = currentProject.list.findIndex((e) => e.id === idTask);
+  currentProject.list.splice(currentIndex, 1);
+  localStorage.setItem("projects", JSON.stringify(data));
+}
+
 export {
   createProjectLocalStorage,
-  createTaskLocalStorage,
   getProjectData,
-  getInboxData,
   currentProjectId,
   storeTaskbyProject,
   getCurrentProjectId,
+  deleteTaskProjects,
+  getCurrentTask,
+  modifyTask,
 };
