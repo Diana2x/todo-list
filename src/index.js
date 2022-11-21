@@ -6,8 +6,6 @@ import {
   storeTaskbyProject,
   getCurrentProjectId,
   currentProjectId,
-  getCurrentTask,
-  modifyTask,
 } from "./localStorage";
 import { createProject, createTask } from "./components";
 import {
@@ -15,6 +13,7 @@ import {
   trimString,
   displayTask,
   displayDataProjects,
+  displayFilterTask,
 } from "./utils";
 import { isThisWeek, isToday, format } from "date-fns";
 
@@ -29,9 +28,9 @@ displayDataProjects(dataProjects);
 //render inbox data
 currentProjectId("1");
 displayTask(dataProjects);
-projectButtonsDetect();
 /*--------------*/
 
+const addbtnContainer = document.getElementById("add-btn");
 const addTaskBtn = document.querySelector(".new-task");
 const popupForm = document.querySelector(".popupForm");
 const addProjectBtn = document.querySelector(".new-project");
@@ -43,6 +42,7 @@ const dateContainer = document.querySelector(".date");
 const textContainer = document.querySelector(".description");
 const textDescription = document.getElementById("description");
 const displayContainer = document.getElementById("task-container");
+const pageHeader = document.getElementById("page-header");
 const inboxBtn = document.getElementById("inbox");
 submitBtn.addEventListener("click", submitData);
 addTaskBtn.addEventListener("click", openForm);
@@ -51,34 +51,38 @@ const todayBtn = document.getElementById("today");
 const weekBtn = document.getElementById("week");
 const displayText = document.createElement("p");
 displayText.classList.add("filter-text");
-
 let currentMode; // to select inbox or projects store option
-let currentDisplaySelection = "inbox";
-
 inboxBtn.addEventListener("click", () => {
   addTaskBtn.style.display = "block";
   displayContainer.innerHTML = "";
+  pageHeader.innerText = `Inbox`;
   currentProjectId("1");
   displayTask(dataProjects);
+  displayContainer.classList.remove("filter-event");
 });
-
 todayBtn.addEventListener("click", () => {
-  addTaskBtn.style.display = "none";
+  addbtnContainer.style.display = "none";
   displayContainer.innerHTML = "";
   displayText.innerText = "Task for Today: ";
   displayContainer.appendChild(displayText);
-  displayTask(todayTaskfilter(dataProjects));
+  displayFilterTask(todayTaskfilter(dataProjects));
+  pageHeader.innerText = `Daily Task Manager`;
+  displayContainer.classList.add("filter-event");
 });
 
 weekBtn.addEventListener("click", () => {
-  addTaskBtn.style.display = "none";
+  addbtnContainer.style.display = "none";
   displayContainer.innerHTML = "";
   displayContainer.appendChild(displayText);
   displayText.innerText = "To do for this Week: ";
-  displayTask(weekTaskFilter(dataProjects));
+  pageHeader.innerText = `Weekly Task Manager`;
+  displayFilterTask(weekTaskFilter(dataProjects));
+  displayContainer.classList.add("filter-event");
 });
 
 function showModalProject() {
+  inputName.value = "";
+  submitBtn.style.display = "flex";
   popupForm.style.visibility = "visible";
   dateContainer.style.display = "none";
   textContainer.style.display = "none";
@@ -118,27 +122,26 @@ function submitData(e) {
     );
   }
   e.preventDefault();
-  projectButtonsDetect();
   closeForm();
 }
 
 function todayTaskfilter(allData) {
-  console.log(
-    allData.map((e) => e.list.filter((e) => isToday(e.due_date))).flat()
-  );
   return allData.map((e) => e.list.filter((e) => isToday(e.due_date))).flat();
 }
 
 function weekTaskFilter(allData) {
-  console.log(
-    allData.map((e) => e.list.filter((e) => isThisWeek(e.due_date))).flat()
-  );
   return allData
     .map((e) => e.list.filter((e) => isThisWeek(e.due_date)))
     .flat();
 }
 
+const submitEditBtn = document.getElementById("submit-edit");
 function openForm() {
+  inputName.value = "";
+  textDescription.value = "";
+  inputDate.value = "";
+  submitEditBtn.style.display = "none";
+  submitBtn.style.display = "flex";
   popupForm.style.visibility = "visible";
   dateContainer.style.display = "block";
   textContainer.style.display = "flex";
@@ -159,9 +162,7 @@ function openModifyForm(currentTask) {
 
 function closeForm() {
   popupForm.style.visibility = "hidden";
-  inputName.value = "";
-  textDescription.value = "";
-  inputDate.value = "";
+  submitBtn.style.display = "none";
 }
 
 window.addEventListener("click", (e) => {
@@ -184,20 +185,10 @@ window.addEventListener("click", (e) => {
   }
 });
 
-function projectButtonsDetect() {
-  const projectButtons = document.querySelectorAll(".project-title");
-  projectButtons.forEach((button) =>
-    button.addEventListener("click", () => {
-      currentDisplaySelection = "project";
-      console.log(currentDisplaySelection);
-    })
-  );
-}
-
 function autoSetTime() {
   var dateControl = document.querySelector('input[type="date"]');
   dateControl.value = format(new Date(), "yyyy-MM-dd");
 }
 autoSetTime();
 
-export { openModifyForm };
+export { openModifyForm, closeForm };

@@ -4,31 +4,56 @@ import {
   deleteTaskProjects,
   getCurrentTask,
   modifyTask,
+  deleteProject,
 } from "./localStorage";
 import { displayTask } from "./utils";
-import { openModifyForm } from "./index";
+import { openModifyForm, closeForm } from "./index";
 
-let submitBtn = document.getElementById("submit");
-let inputName = document.getElementById("name");
-let inputDate = document.getElementById("date");
-let textDescription = document.getElementById("description");
-
+const submitEditBtn = document.getElementById("submit-edit");
+const submitBtn = document.getElementById("submit");
+const inputName = document.getElementById("name");
+const inputDate = document.getElementById("date");
+const textDescription = document.getElementById("description");
+const pageHeader = document.getElementById("page-header");
 function createProject(projectTitle, id, dataProjects) {
+  if (projectTitle === "inbox") {
+    return;
+  }
   const addTaskBtn = document.querySelector(".new-task");
   const displayContainer = document.getElementById("task-container");
   const projectContainer = document.getElementById("project-container");
   const projectItem = document.createElement("div");
+  projectItem.classList.add("project-div");
   const projectName = document.createElement("button");
+  const projectDelete = document.createElement("button");
+  projectDelete.innerHTML = `<i class="fa-solid fa-trash"></i>`;
   projectName.classList.add("project-title");
   projectName.addEventListener("click", () => {
+    displayContainer.classList.remove("filter-event");
+    const projectbtns = Array.from(document.querySelectorAll(".project-div"));
+    const filteredbtns = projectbtns.filter((e) =>
+      e.classList.contains("project-active")
+    );
+    Array.from(filteredbtns).forEach((e) =>
+      e.classList.remove("project-active")
+    );
     addTaskBtn.style.display = "block";
     displayContainer.innerHTML = "";
     currentProjectId(id);
     displayTask(dataProjects);
+    pageHeader.textContent = projectTitle;
+    projectItem.classList.add("project-active");
+  });
+  projectDelete.addEventListener("click", () => {
+    if (confirm("Are you sure you want to delete this project?") == true) {
+      deleteProject(id, dataProjects);
+      projectContainer.removeChild(projectItem);
+    } else return;
   });
   projectName.textContent = projectTitle;
   projectContainer.appendChild(projectItem);
   projectItem.appendChild(projectName);
+  projectItem.appendChild(projectDelete);
 }
 
 function createTask(taskName, taskDate, taskDescription, id, data) {
@@ -36,6 +61,7 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
   const taskItem = document.createElement("div");
   taskItem.classList.add("item-container");
   const leftContainer = document.createElement("div");
+  leftContainer.classList.add("task-left--container");
   const topContainer = document.createElement("div");
   topContainer.classList.add("top-container");
   const itemDate = document.createElement("p");
@@ -79,11 +105,13 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
     Array.from(elements).forEach((e) => e.classList.remove("visible"));
     editMenuContainer.classList.add("visible");
   });
+
   modifyOption.addEventListener("click", () => {
-    let currentTask = getCurrentTask(id, data);
-    openModifyForm(currentTask);
-    console.log(getCurrentTask(id, data));
-    submitBtn.addEventListener("click", () => {
+    openModifyForm(getCurrentTask(id, data));
+    submitBtn.style.display = "none";
+    submitEditBtn.style.display = "flex";
+
+    submitEditBtn.addEventListener("click", () => {
       modifyTask(
         inputName.value,
         inputDate.valueAsNumber,
@@ -91,7 +119,12 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
         data,
         id
       );
+
+      itemName.textContent = inputName.value;
+      itemDate.textContent = format(inputDate.valueAsNumber, "dd/MM/yyyy");
+      descriptionDisplay.textContent = textDescription.value;
     });
+    submitEditBtn.addEventListener("click", closeForm);
   });
   deleteOption.addEventListener("click", () => {
     if (confirm("Are you sure you want to delete this task?") == true) {
@@ -110,7 +143,7 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
   textContainer.appendChild(descriptionDisplay);
   leftContainer.appendChild(statusContainer);
   statusContainer.appendChild(itemStatus);
-  taskItem.appendChild(settingContainer);
+  topContainer.appendChild(settingContainer);
   settingContainer.appendChild(settingIcon);
   settingContainer.appendChild(editMenuContainer);
   editMenuContainer.appendChild(modifyOption);

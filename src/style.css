@@ -4,17 +4,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Fuzzy+Bubbles&family=Roboto+Condensed&display=swap");
 
 :root {
+  --background: repeating-linear-gradient(
+    45deg,
+    rgb(3, 3, 3) 0px,
+    rgb(3, 3, 3) 113px,
+    rgb(15, 15, 15) 113px,
+    rgb(15, 15, 15) 226px
+  );
   --background-color: #effffd;
   --font-text: "Fuzzy Bubbles", cursive, Arial, Helvetica, sans-serif;
   --font-heading: "Fredericka the Great", cursive, Arial, Helvetica, sans-serif;
   --font-text2: "Roboto Condensed", sans-serif, Arial, Helvetica, sans-serif;
   --background-soft: rgba(0, 0, 0, 0.616);
-  --current-selection: rgba(255, 254, 251, 0.5);
-  --border-color: rgba(255, 254, 251, 0.5); /*Task color*/
+  --current-selection: rgb(251, 254, 255);
+  --border-color: rgba(255, 254, 251, 0.8); /*Task color*/
 }
-* {
-}
+
 body {
+  background-image: var(--background);
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -23,12 +30,15 @@ body {
   background-size: cover;
   font-size: 20px;
   color: white;
-  background-color: black;
   font-family: var(--font-text2);
+  overflow: hidden;
 }
 
+.header {
+  height: 15%;
+}
 h1 {
-  font-family: var(--font-heading);
+  font-family: var(--font-text2);
   font-size: 5rem;
   color: white;
   text-align: center;
@@ -38,11 +48,11 @@ h1 {
   font-size: 1.5rem;
   padding-left: 20px;
   color: white;
-  font-family: var(--font-heading);
+  font-family: var(--font-text2);
 }
 .main-container {
   display: flex;
-  height: 100%;
+  height: 85%;
 }
 .task-management {
   display: flex;
@@ -50,7 +60,7 @@ h1 {
   border-right: 3px solid white;
   width: 20%;
   gap: 50px;
-  margin: 10px;
+  padding: 10px;
 }
 
 .action-container,
@@ -70,67 +80,6 @@ button {
 
 input[type="checkbox"] {
   transform: scale(1.5);
-}
-
-.task-management button:hover {
-  background-color: var(--current-selection);
-  color: black;
-  border-radius: 3px;
-  border: 1px solid black;
-}
-
-/*Display Container*/
-
-.display-container {
-  width: 80%;
-  border-left: 2px solid black;
-  height: 100%;
-  padding: 20px;
-}
-
-.add-btn {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.new-task {
-  display: flex;
-  justify-content: center;
-  width: 50%;
-  background-color: var(--current-selection);
-  border-radius: 5px;
-}
-.new-task:hover {
-  background-color: var(--current-selection);
-  color: black;
-}
-
-#task-container {
-  padding-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Task Created */
-.item-container {
-  display: flex;
-  gap: 20px;
-  background: var(--border-color);
-  border-radius: 15px;
-  padding: 5px;
-}
-.top-container {
-  display: flex;
-  justify-content: space-around;
-}
-
-.text-container,
-.status-container {
-  display: flex;
-  gap: 20px;
-  padding-left: 20px;
 }
 
 /*FORM POP UP*/
@@ -156,7 +105,7 @@ input[type="checkbox"] {
 #form {
   width: 50vw;
   height: 35vh;
-  background-color: #f0d9ff;
+  background-color: #affcff;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -194,7 +143,8 @@ input[type="checkbox"] {
   justify-content: center;
   align-items: center;
 }
-#submit {
+#submit,
+#submit-edit {
   background-color: var(--current-selection);
   color: black;
   border-radius: 10px;
@@ -203,11 +153,12 @@ input[type="checkbox"] {
   justify-content: center;
   align-items: center;
   padding: 5px;
-  border: 1px solid var(--current-selection);
+  border: 2px solid rgb(43, 236, 227);
 }
-#submit:hover {
+#submit:hover,
+#submit-edit:hover {
   cursor: pointer;
-  border: 1px solid purple;
+  border: 2px solid rgb(1, 10, 10);
 }
 
 .filter-text {
@@ -217,8 +168,10 @@ input[type="checkbox"] {
   font-family: var(--font-heading);
 }
 
-.current-status {
-  background-color: green;
+.current-status,
+.status-container {
+  background-color: rgb(54, 248, 54);
+  border-radius: 10px;
 }
 
 .edit-btn--div {
@@ -242,5 +195,148 @@ input[type="checkbox"] {
 }
 .edit-menu--item:hover {
   background-color: var(--current-selection);
-  color: white;
+  color: black;
+}
+
+/*button submit edit*/
+
+#submit-edit {
+  display: none;
+}
+.project-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  height: 60%;
+}
+.project-div {
+  display: flex;
+  justify-content: space-between;
+}
+.project-title {
+  width: 80%;
+}
+.project-active {
+  background-color: aliceblue;
+  color: black;
+}
+
+.project-div:hover {
+  background-color: var(--current-selection);
+  color: black;
+}
+.project-div button:hover {
+  color: rgb(0, 183, 255);
+}
+
+/*Project Button*/
+.action-container button:hover {
+  background-color: var(--current-selection);
+  color: black;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+/*Display Container*/
+
+.display-container {
+  width: 75%;
+  border-left: 2px solid black;
+  height: 100%;
+}
+
+.add-btn {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+.new-task {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  background-color: var(--current-selection);
+  border-radius: 5px;
+}
+.new-task:hover {
+  background-color: var(--current-selection);
+  color: black;
+}
+
+#task-container {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  height: 85%;
+}
+
+.filter-event {
+  pointer-events: none;
+}
+
+/* Tasks */
+.item-container {
+  display: flex;
+  gap: 20px;
+  background: var(--border-color);
+  border-radius: 15px;
+  padding: 5px;
+  justify-content: space-between;
+  color: black;
+  border: 1px solid rgb(0, 183, 255);
+}
+.task-left--container {
+  flex-grow: 1;
+}
+.top-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.task-name {
+  color: black;
+  font-weight: bolder;
+  text-decoration: underline;
+}
+.task-date {
+  font-weight: bolder;
+}
+.text-container,
+.status-container {
+  display: flex;
+  gap: 20px;
+  padding-left: 20px;
+}
+/*Edit Button task*/
+
+.setting-btn:hover {
+  color: rgb(0, 183, 255);
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00b7ff #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 30px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #00b7ff;
+  border-radius: 8px;
+  border: 2px none #ffffff;
 }

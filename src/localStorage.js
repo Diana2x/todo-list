@@ -1,5 +1,6 @@
 import { da } from "date-fns/locale";
 import { openModifyForm } from "./index";
+
 function createProjectLocalStorage(newProject, data) {
   data.push(newProject);
   localStorage.setItem("projects", JSON.stringify(data));
@@ -45,6 +46,12 @@ function deleteTaskProjects(idTask, data) {
   localStorage.setItem("projects", JSON.stringify(data));
 }
 
+function deleteProject(id, data) {
+  let currentProject = data.findIndex((e) => e.id_project === id);
+  data.splice(currentProject, 1);
+  localStorage.setItem("projects", JSON.stringify(data));
+}
+
 export {
   createProjectLocalStorage,
   getProjectData,
@@ -54,4 +61,5 @@ export {
   deleteTaskProjects,
   getCurrentTask,
   modifyTask,
+  deleteProject,
 };

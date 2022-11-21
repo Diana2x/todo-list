@@ -14,10 +14,7 @@ function validateNameInput(newData, totalData) {
 }
 
 function trimString(string) {
-  return string
-    .replace(/(\W|\_)/g, " ")
-    .replace(/\ {2,30}/g, " ")
-    .trim();
+  return string.replace(/\ {2,30}/g, " ").trim();
 }
 
 const displayDataProjects = (data) => {
@@ -33,16 +30,19 @@ const displayDataProjects = (data) => {
   }
 
   data.map((e) => {
-    if (e.name !== "inbox") {
-      createProject(e.name, e.id_project, data);
-    }
+    createProject(e.name, e.id_project, data);
   });
 };
 
 const displayTask = (data) => {
   let dataProject = data.find((e) => e.id_project === getCurrentProjectId());
-  console.log(dataProject);
   dataProject.list.forEach((e) => {
+    createTask(e.name, e.due_date, e.description, e.id, data);
+  });
+};
+
+const displayFilterTask = (data) => {
+  data.forEach((e) => {
     createTask(e.name, e.due_date, e.description, e.id, data);
   });
 };
@@ -53,4 +53,5 @@ export {
   trimString,
   displayDataProjects,
   displayTask,
+  displayFilterTask,
 };
