@@ -34,6 +34,7 @@ const addbtnContainer = document.getElementById("add-btn");
 const addTaskBtn = document.querySelector(".new-task");
 const popupForm = document.querySelector(".popupForm");
 const addProjectBtn = document.querySelector(".new-project");
+const submitEditBtn = document.getElementById("submit-edit");
 const submitBtn = document.getElementById("submit");
 const headerText = document.querySelector(".header-text");
 const inputName = document.getElementById("name");
@@ -53,31 +54,38 @@ const displayText = document.createElement("p");
 displayText.classList.add("filter-text");
 let currentMode; // to select inbox or projects store option
 inboxBtn.addEventListener("click", () => {
+  currentSelectionActive();
+  addbtnContainer.style.display = "flex";
   addTaskBtn.style.display = "block";
   displayContainer.innerHTML = "";
-  pageHeader.innerText = `Inbox`;
+  pageHeader.innerText = ` 📥 Inbox 📥`;
   currentProjectId("1");
   displayTask(dataProjects);
   displayContainer.classList.remove("filter-event");
+  inboxBtn.classList.add("project-active");
 });
 todayBtn.addEventListener("click", () => {
+  currentSelectionActive();
   addbtnContainer.style.display = "none";
   displayContainer.innerHTML = "";
   displayText.innerText = "Task for Today: ";
   displayContainer.appendChild(displayText);
   displayFilterTask(todayTaskfilter(dataProjects));
-  pageHeader.innerText = `Daily Task Manager`;
+  pageHeader.innerText = ` 🕐 Daily Task Manager 🕐`;
   displayContainer.classList.add("filter-event");
+  todayBtn.classList.add("project-active");
 });
 
 weekBtn.addEventListener("click", () => {
+  currentSelectionActive();
   addbtnContainer.style.display = "none";
   displayContainer.innerHTML = "";
   displayContainer.appendChild(displayText);
   displayText.innerText = "To do for this Week: ";
-  pageHeader.innerText = `Weekly Task Manager`;
+  pageHeader.innerText = ` 📅 Weekly Task Manager 📅`;
   displayFilterTask(weekTaskFilter(dataProjects));
   displayContainer.classList.add("filter-event");
+  weekBtn.classList.add("project-active");
 });
 
 function showModalProject() {
@@ -135,7 +143,16 @@ function weekTaskFilter(allData) {
     .flat();
 }
 
-const submitEditBtn = document.getElementById("submit-edit");
+function currentSelectionActive() {
+  const actionbtns = Array.from(document.querySelectorAll(".actionbtn"));
+  const projectbtns = Array.from(document.querySelectorAll(".project-div"));
+
+  const filteredbtns = projectbtns
+    .concat(actionbtns)
+    .filter((e) => e.classList.contains("project-active"));
+  Array.from(filteredbtns).forEach((e) => e.classList.remove("project-active"));
+}
+
 function openForm() {
   inputName.value = "";
   textDescription.value = "";
@@ -191,4 +208,4 @@ function autoSetTime() {
 }
 autoSetTime();
 
-export { openModifyForm, closeForm };
+export { openModifyForm, closeForm, currentSelectionActive };

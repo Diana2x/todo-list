@@ -7,7 +7,7 @@ import {
   deleteProject,
 } from "./localStorage";
 import { displayTask } from "./utils";
-import { openModifyForm, closeForm } from "./index";
+import { openModifyForm, closeForm, currentSelectionActive } from "./index";
 
 const submitEditBtn = document.getElementById("submit-edit");
 const submitBtn = document.getElementById("submit");
@@ -15,10 +15,12 @@ const inputName = document.getElementById("name");
 const inputDate = document.getElementById("date");
 const textDescription = document.getElementById("description");
 const pageHeader = document.getElementById("page-header");
+
 function createProject(projectTitle, id, dataProjects) {
   if (projectTitle === "inbox") {
     return;
   }
+  const addbtnContainer = document.getElementsByClassName("add-btn");
   const addTaskBtn = document.querySelector(".new-task");
   const displayContainer = document.getElementById("task-container");
   const projectContainer = document.getElementById("project-container");
@@ -28,15 +30,11 @@ function createProject(projectTitle, id, dataProjects) {
   const projectDelete = document.createElement("button");
   projectDelete.innerHTML = `<i class="fa-solid fa-trash"></i>`;
   projectName.classList.add("project-title");
+
   projectName.addEventListener("click", () => {
+    addbtnContainer[0].style.display = "flex";
     displayContainer.classList.remove("filter-event");
-    const projectbtns = Array.from(document.querySelectorAll(".project-div"));
-    const filteredbtns = projectbtns.filter((e) =>
-      e.classList.contains("project-active")
-    );
-    Array.from(filteredbtns).forEach((e) =>
-      e.classList.remove("project-active")
-    );
+    currentSelectionActive();
     addTaskBtn.style.display = "block";
     displayContainer.innerHTML = "";
     currentProjectId(id);
