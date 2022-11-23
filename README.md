@@ -2,7 +2,7 @@
 
 Task manager web app which allows you to keep track of your to do activities.
 
-Live version: [ Here 👉 ](https://diana2x.github.io/)
+Live version: [ Here 👉 ](https://diana2x.github.io/todo-list/)
 
 ## Built with
 
