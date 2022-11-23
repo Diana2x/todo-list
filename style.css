@@ -1,0 +1,391 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Fuzzy+Bubbles&family=Roboto+Condensed&display=swap");
+
+:root {
+  --background: repeating-linear-gradient(
+    45deg,
+    rgb(3, 3, 3) 0px,
+    rgb(3, 3, 3) 113px,
+    rgb(15, 15, 15) 113px,
+    rgb(15, 15, 15) 226px
+  );
+  --background-color: #effffd;
+  --font-text: "Fuzzy Bubbles", cursive, Arial, Helvetica, sans-serif;
+  --font-heading: "Fredericka the Great", cursive, Arial, Helvetica, sans-serif;
+  --font-text2: "Roboto Condensed", sans-serif, Arial, Helvetica, sans-serif;
+  --background-soft: rgba(0, 0, 0, 0.616);
+  --current-selection: rgb(251, 254, 255);
+  --border-color: rgba(255, 254, 251, 0.8); /*Task color*/
+}
+
+body {
+  background-image: var(--background);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  background-size: cover;
+  font-size: 20px;
+  color: white;
+  font-family: var(--font-text2);
+  overflow: hidden;
+}
+
+.header {
+  height: 15%;
+}
+h1 {
+  font-family: var(--font-text2);
+  font-size: 5rem;
+  color: white;
+  text-align: center;
+  letter-spacing: 2px;
+}
+.header2 {
+  font-size: 1.5rem;
+  padding-left: 20px;
+  color: white;
+  font-family: var(--font-text2);
+  height: 10%;
+}
+.new-project {
+  height: 10%;
+  letter-spacing: 3px;
+}
+.new-project:hover {
+  color: rgb(180, 1, 180) !important;
+  background-color: var(--current-selection);
+}
+.new-project i:hover {
+  color: rgb(180, 1, 180) !important;
+}
+.main-container {
+  display: flex;
+  height: 85%;
+}
+.task-management {
+  display: flex;
+  flex-direction: column;
+  border-right: 3px solid white;
+  width: 20%;
+  gap: 50px;
+  padding: 10px;
+  background-color: rgb(0, 88, 252, 0.5);
+  border-radius: 10px;
+}
+.action-container {
+  height: 25%;
+}
+.action-container button {
+  letter-spacing: 3px;
+}
+.add-container {
+  height: 75%;
+  letter-spacing: 5px;
+}
+.action-container,
+.add-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+button {
+  display: flex;
+  border: 1px solid transparent;
+  padding: 5px;
+  gap: 5px;
+  align-items: center;
+  letter-spacing: 1px;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+}
+
+/*FORM POP UP*/
+.popupForm {
+  visibility: hidden;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  background-color: var(--background-soft);
+  top: 0;
+  left: 0;
+  font-family: var(--font-text);
+  color: rgb(0, 0, 0);
+}
+.popupForm h2 {
+  font-size: 1.7rem;
+  text-align: center;
+}
+#form {
+  width: 50vw;
+  height: 35vh;
+  background-color: #affcff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 20px;
+  font-size: 1.2rem;
+  font-weight: bolder;
+}
+.name input[type="text"] {
+  border-bottom: 1px solid var(--background-soft);
+  background-color: transparent;
+}
+.date input {
+  background-color: transparent;
+}
+#form input:focus {
+  outline: none;
+  background-color: transparent;
+}
+.description {
+  display: flex;
+  flex-direction: column;
+}
+.description textarea {
+  background-color: var(--background-soft);
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  width: 60%;
+  font-size: 15px;
+  resize: none;
+}
+
+select.list option.open {
+  background-color: grey;
+}
+select.list option.pending {
+  background-color: yellow;
+}
+select.list option.progress {
+  background-color: #00b7ff;
+}
+select.list option.completed {
+  background-color: rgb(41, 167, 2);
+}
+.submit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#submit,
+#submit-edit {
+  background-color: var(--current-selection);
+  color: black;
+  border-radius: 10px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border: 2px solid rgb(43, 236, 227);
+}
+#submit:hover,
+#submit-edit:hover {
+  cursor: pointer;
+  border: 2px solid rgb(1, 10, 10);
+}
+
+.filter-text {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 2rem;
+  font-family: var(--font-heading);
+}
+
+.status-container {
+  border-radius: 10px;
+  width: 30%;
+}
+.open-status {
+  background-color: grey;
+}
+.pending-status {
+  background-color: yellow;
+}
+.progress-status {
+  background-color: #00b7ff;
+}
+.completed-status {
+  background-color: rgb(41, 167, 2);
+}
+
+.edit-btn--div {
+  position: fixed;
+  width: 150px;
+  background: #2b2a2a;
+  border-radius: 5px;
+  display: none;
+  z-index: 10000;
+}
+.edit-btn--div.visible {
+  display: block;
+}
+
+.edit-menu--item {
+  padding: 8px;
+  font-size: 16px;
+  color: pink;
+  cursor: pointer;
+  border-radius: inherit;
+}
+.edit-menu--item:hover {
+  background-color: var(--current-selection);
+  color: black;
+}
+
+/*button submit edit*/
+
+#submit-edit {
+  display: none;
+}
+.project-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  height: 70%;
+}
+.project-container button {
+  letter-spacing: 2px;
+}
+.project-div {
+  display: flex;
+  justify-content: space-between;
+}
+.project-title {
+  width: 80%;
+}
+.project-active {
+  background-color: aliceblue;
+  color: black;
+}
+
+.project-div:hover {
+  background-color: var(--current-selection);
+  color: black;
+}
+.project-div button i:hover {
+  color: rgb(0, 183, 255);
+}
+
+/*Project Button*/
+.action-container button:hover {
+  background-color: var(--current-selection);
+  color: black;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+/*Display Container*/
+
+.display-container {
+  width: 75%;
+  border-left: 2px solid black;
+  height: 100%;
+}
+
+.add-btn {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+.new-task {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  background-color: var(--current-selection);
+  border-radius: 5px;
+}
+.new-task:hover {
+  background-color: var(--current-selection);
+  color: black;
+}
+
+#task-container {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  height: 85%;
+}
+
+.filter-event {
+  pointer-events: none;
+}
+
+/* Tasks */
+.item-container {
+  display: flex;
+  gap: 20px;
+  background: whitesmoke;
+  border-radius: 15px;
+  padding: 5px;
+  justify-content: space-between;
+  color: black;
+}
+.task-left--container {
+  flex-grow: 1;
+}
+.top-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.task-name {
+  color: black;
+  font-weight: bolder;
+  text-decoration: underline;
+}
+.task-date {
+  font-weight: bolder;
+}
+.text-container,
+.status-container {
+  display: flex;
+  gap: 20px;
+  padding-left: 20px;
+}
+/*Edit Button task*/
+
+.setting-btn:hover {
+  color: rgb(0, 183, 255);
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00b7ff #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 30px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #00b7ff;
+  border-radius: 8px;
+  border: 2px none #ffffff;
+}
