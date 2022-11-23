@@ -14,6 +14,8 @@ const submitBtn = document.getElementById("submit");
 const inputName = document.getElementById("name");
 const inputDate = document.getElementById("date");
 const textDescription = document.getElementById("description");
+const statusOptions = document.getElementById("task-status");
+const statusContainer = document.getElementById("status-container");
 const pageHeader = document.getElementById("page-header");
 
 function createProject(projectTitle, id, dataProjects) {
@@ -54,7 +56,7 @@ function createProject(projectTitle, id, dataProjects) {
   projectItem.appendChild(projectDelete);
 }
 
-function createTask(taskName, taskDate, taskDescription, id, data) {
+function createTask(taskName, taskDate, taskDescription, taskStatus, id, data) {
   const taskContainer = document.getElementById("task-container");
   const taskItem = document.createElement("div");
   taskItem.classList.add("item-container");
@@ -74,15 +76,15 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
   descriptionDisplay.classList.add("description-field");
   const statusContainer = document.createElement("div");
   statusContainer.classList.add("status-container");
+  const statusText = document.createElement("p");
+  statusText.innerText = "Status: ";
   const itemStatus = document.createElement("p");
-  itemStatus.classList.add("current-status");
-  itemStatus.innerHTML = `New`;
+  itemStatus.innerHTML = `${taskStatus}`;
   const settingContainer = document.createElement("div");
   settingContainer.classList.add("setting-container");
   const settingIcon = document.createElement("button");
   settingIcon.classList.add("setting-btn");
   settingIcon.innerHTML = `<i class="fas fa-gear"></i>`;
-  // Calling edit Menu
   const editMenuContainer = document.createElement("div");
   editMenuContainer.classList.add("edit-btn--div");
   const modifyOption = document.createElement("div");
@@ -91,6 +93,19 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
   const deleteOption = document.createElement("div");
   deleteOption.classList.add("delete-task", "edit-menu--item");
   deleteOption.innerText = "Delete";
+
+  /* Status Background */
+  if (itemStatus.innerText === "open") {
+    statusContainer.classList.add("open-status");
+  } else if (itemStatus.innerText === "pending") {
+    statusContainer.classList.add("pending-status");
+  } else if (itemStatus.innerText === "In-progress") {
+    statusContainer.classList.add("progress-status");
+  } else if (itemStatus.innerText === "completed") {
+    statusContainer.classList.add("completed-status");
+  }
+
+  /* Calling edit Menu */
   settingIcon.addEventListener("click", () => {
     if (editMenuContainer.classList.contains("visible")) {
       editMenuContainer.classList.remove("visible");
@@ -114,13 +129,23 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
         inputName.value,
         inputDate.valueAsNumber,
         textDescription.value,
+        statusOptions.value,
         data,
         id
       );
-
       itemName.textContent = inputName.value;
       itemDate.textContent = format(inputDate.valueAsNumber, "dd/MM/yyyy");
       descriptionDisplay.textContent = textDescription.value;
+      itemStatus.textContent = statusOptions.value;
+      if (itemStatus.innerText === "open") {
+        statusContainer.classList.add("open-status");
+      } else if (itemStatus.innerText === "pending") {
+        statusContainer.classList.add("pending-status");
+      } else if (itemStatus.innerText === "In-progress") {
+        statusContainer.classList.add("progress-status");
+      } else if (itemStatus.innerText === "completed") {
+        statusContainer.classList.add("completed-status");
+      }
     });
     submitEditBtn.addEventListener("click", closeForm);
   });
@@ -140,6 +165,7 @@ function createTask(taskName, taskDate, taskDescription, id, data) {
   textContainer.appendChild(descriptionTag);
   textContainer.appendChild(descriptionDisplay);
   leftContainer.appendChild(statusContainer);
+  statusContainer.appendChild(statusText);
   statusContainer.appendChild(itemStatus);
   topContainer.appendChild(settingContainer);
   settingContainer.appendChild(settingIcon);

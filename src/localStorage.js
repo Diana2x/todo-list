@@ -30,12 +30,13 @@ function getCurrentTask(idTask, data) {
   return task;
 }
 
-function modifyTask(name, date, description, data, idTask) {
+function modifyTask(name, date, description, status, data, idTask) {
   let currentProject = data.find((e) => e.id_project === getCurrentProjectId());
   let task = currentProject.list.find((e) => e.id === idTask);
   task.name = name;
   task.due_date = date;
   task.description = description;
+  task.status = status;
   localStorage.setItem("projects", JSON.stringify(data));
 }
 

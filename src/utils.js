@@ -37,13 +37,13 @@ const displayDataProjects = (data) => {
 const displayTask = (data) => {
   let dataProject = data.find((e) => e.id_project === getCurrentProjectId());
   dataProject.list.forEach((e) => {
-    createTask(e.name, e.due_date, e.description, e.id, data);
+    createTask(e.name, e.due_date, e.description, e.status, e.id, data);
   });
 };
 
 const displayFilterTask = (data) => {
   data.forEach((e) => {
-    createTask(e.name, e.due_date, e.description, e.id, data);
+    createTask(e.name, e.due_date, e.description, e.status, e.id, data);
   });
 };
 

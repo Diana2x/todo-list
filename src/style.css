@@ -161,6 +161,19 @@ input[type="checkbox"] {
   font-size: 15px;
   resize: none;
 }
+
+select.list option.open {
+  background-color: grey;
+}
+select.list option.pending {
+  background-color: yellow;
+}
+select.list option.progress {
+  background-color: #00b7ff;
+}
+select.list option.completed {
+  background-color: rgb(41, 167, 2);
+}
 .submit-container {
   display: flex;
   justify-content: center;
@@ -191,10 +204,21 @@ input[type="checkbox"] {
   font-family: var(--font-heading);
 }
 
-.current-status,
 .status-container {
-  background-color: rgb(7, 207, 7);
   border-radius: 10px;
+  width: 30%;
+}
+.open-status {
+  background-color: grey;
+}
+.pending-status {
+  background-color: yellow;
+}
+.progress-status {
+  background-color: #00b7ff;
+}
+.completed-status {
+  background-color: rgb(41, 167, 2);
 }
 
 .edit-btn--div {

@@ -42,6 +42,8 @@ const inputDate = document.getElementById("date");
 const dateContainer = document.querySelector(".date");
 const textContainer = document.querySelector(".description");
 const textDescription = document.getElementById("description");
+const statusContainer = document.getElementById("status-container");
+const taskStatus = document.getElementById("task-status");
 const displayContainer = document.getElementById("task-container");
 const pageHeader = document.getElementById("page-header");
 const inboxBtn = document.getElementById("inbox");
@@ -89,12 +91,13 @@ weekBtn.addEventListener("click", () => {
 });
 
 function showModalProject() {
+  headerText.innerHTML = "New Project";
   inputName.value = "";
   submitBtn.style.display = "flex";
   popupForm.style.visibility = "visible";
   dateContainer.style.display = "none";
   textContainer.style.display = "none";
-  headerText.innerHTML = "New Project";
+  statusContainer.style.display = "none";
   currentMode = true;
 }
 
@@ -114,7 +117,8 @@ function submitData(e) {
     let task = new Task(
       newName,
       inputDate.valueAsNumber,
-      textDescription.value
+      textDescription.value,
+      taskStatus.value
     );
     if (inputDate.value === "") {
       alert("Please select a date");
@@ -125,12 +129,14 @@ function submitData(e) {
       newName,
       inputDate.valueAsNumber,
       textDescription.value,
+      taskStatus.value,
       task.taskId,
       dataProjects
     );
   }
   e.preventDefault();
   closeForm();
+  console.log(taskStatus.value);
 }
 
 function todayTaskfilter(allData) {
@@ -174,6 +180,7 @@ function openModifyForm(currentTask) {
   inputName.value = currentTask.name;
   inputDate.valueAsNumber = currentTask.due_date;
   textDescription.value = currentTask.description;
+  taskStatus.value = currentTask.status;
   currentMode = false;
 }
 
