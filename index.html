@@ -36,6 +36,15 @@
             maxlength="200"
           ></textarea>
         </div>
+        <div class="label-container" id="status-container">
+          <label for="status">Status:</label>
+          <select name="task-status" id="task-status" class="list">
+            <option class="open" value="open">Open</option>
+            <option class="pending" value="pending">Pending</option>
+            <option class="progress" value="In-progress">In progress</option>
+            <option class="completed" value="completed">Completed</option>
+          </select>
+        </div>
         <div class="submit-container">
           <button id="submit">Submit</button>
           <button id="submit-edit">Submit</button>
